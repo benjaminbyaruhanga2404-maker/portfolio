@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benjamin Byaruhanga — Mechatronics &amp; Robotics Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f172a;
+    --surface:#1e293b;
+    --surface-soft:rgba(255,255,255,0.035);
+    --border:rgba(255,255,255,0.09);
+    --text:#f1f5f9;
+    --text-dim:#94a3b8;
+    --text-faint:#64748b;
+    --accent:#22d3ee;
+    --accent-soft:rgba(34,211,238,0.12);
+    --accent-contrast:#0b1320;
+    --shadow:rgba(0,0,0,0.35);
+    --font-display:'Inter',sans-serif;
+    --font-mono:'JetBrains Mono',monospace;
+  }
+
+  html[data-theme="light"]{
+    --bg:#f8fafc;
+    --surface:#ffffff;
+    --surface-soft:rgba(15,23,42,0.03);
+    --border:rgba(15,23,42,0.09);
+    --text:#0f172a;
+    --text-dim:#475569;
+    --text-faint:#94a3b8;
+    --accent:#0891b2;
+    --accent-soft:rgba(8,145,178,0.10);
+    --accent-contrast:#ffffff;
+    --shadow:rgba(15,23,42,0.08);
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-display);
+    line-height:1.65;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    transition:background .35s ease, color .35s ease;
+  }
+
+  a{color:inherit; text-decoration:none;}
+
+  ::selection{background:var(--accent-soft); color:var(--accent);}
+
+  :focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:3px;
+  }
+
+  img{max-width:100%; display:block;}
+
+  /* ---------- background texture ---------- */
+
+  .grid-bg{
+    position:fixed;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:56px 56px;
+    -webkit-mask-image:radial-gradient(circle at 50% 0%, rgba(0,0,0,0.45), transparent 65%);
+    mask-image:radial-gradient(circle at 50% 0%, rgba(0,0,0,0.45), transparent 65%);
+    opacity:0.6;
+  }
+
+  .glow{
+    position:fixed;
+    z-index:0;
+    pointer-events:none;
+    width:560px; height:560px;
+    border-radius:50%;
+    background:radial-gradient(circle, var(--accent-soft), transparent 70%);
+    filter:blur(40px);
+    opacity:0.9;
+  }
+  .glow--a{top:-220px; left:-160px;}
+  .glow--b{top:480px; right:-220px; width:480px; height:480px;}
+
+  main, header, footer{position:relative; z-index:1;}
+
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  section{
+    padding:120px 0;
+    border-bottom:1px solid var(--border);
+    scroll-margin-top:84px;
+  }
+  section:last-of-type{border-bottom:none;}
+
+  .section__head{
+    margin-bottom:56px;
+    max-width:640px;
+  }
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.18em;
+    color:var(--accent);
+    text-transform:uppercase;
+    display:block;
+    margin-bottom:12px;
+  }
+  .section__head h2{
+    font-size:clamp(28px,4vw,40px);
+    font-weight:700;
+    letter-spacing:-0.01em;
+    margin-bottom:14px;
+  }
+  .section__head p{
+    color:var(--text-dim);
+    font-size:15.5px;
+  }
+
+  /* ---------- reveal ---------- */
+
+  .reveal{
+    opacity:0;
+    transform:translateY(26px);
+    transition:opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal.visible{opacity:1; transform:translateY(0);}
+
+  /* ---------- nav ---------- */
+
+  .nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:50;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 32px;
+    background:color-mix(in srgb, var(--bg) 78%, transparent);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+  }
+
+  .nav__brand{
+    font-weight:800;
+    font-size:17px;
+    letter-spacing:-0.01em;
+    display:flex;
+    align-items:center;
+    gap:9px;
+  }
+  .nav__brand-mark{
+    width:30px; height:30px;
+    border:1px solid var(--accent);
+    border-radius:8px;
+    display:grid;
+    place-items:center;
+    font-family:var(--font-mono);
+    font-size:12px;
+    font-weight:600;
+    color:var(--accent);
+  }
+
+  .nav__links{
+    display:flex;
+    gap:30px;
+    font-size:14px;
+    font-weight:500;
+  }
+  .nav__links a{
+    color:var(--text-dim);
+    position:relative;
+    padding:4px 0;
+    transition:color .2s ease;
+  }
+  .nav__links a:hover, .nav__links a.active{color:var(--text);}
+  .nav__links a::after{
+    content:'';
+    position:absolute;
+    left:0; bottom:-2px;
+    width:0%; height:2px;
+    background:var(--accent);
+    border-radius:2px;
+    transition:width .25s ease;
+  }
+  .nav__links a:hover::after, .nav__links a.active::after{width:100%;}
+
+  .nav__right{display:flex; align-items:center; gap:14px;}
+
+  .theme-toggle{
+    width:38px; height:38px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    background:var(--surface-soft);
+    color:var(--text);
+    display:grid;
+    place-items:center;
+    cursor:pointer;
+    transition:border-color .2s ease, color .2s ease, transform .2s ease;
+  }
+  .theme-toggle:hover{border-color:var(--accent); color:var(--accent);}
+  .theme-toggle:active{transform:scale(0.94);}
+  .theme-toggle svg{width:18px; height:18px;}
+  .theme-toggle .icon-sun{display:none;}
+  html[data-theme="light"] .theme-toggle .icon-moon{display:none;}
+  html[data-theme="light"] .theme-toggle .icon-sun{display:block;}
+
+  @media (max-width:880px){
+    .nav__links{display:none;}
+  }
+
+  /* ---------- buttons ---------- */
+
+  .btn{
+    font-size:14px;
+    font-weight:600;
+    padding:14px 26px;
+    border-radius:10px;
+    border:1px solid var(--border);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    transition:all .2s ease;
+    cursor:pointer;
+  }
+  .btn--primary{
+    background:var(--accent);
+    color:var(--accent-contrast);
+    border-color:var(--accent);
+  }
+  .btn--primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 24px -12px var(--accent);
+  }
+  .btn--ghost{
+    background:transparent;
+    color:var(--text);
+  }
+  .btn--ghost:hover{
+    border-color:var(--accent);
+    color:var(--accent);
+  }
+
+  /* ---------- hero ---------- */
+
+  .hero{
+    padding-top:200px;
+    padding-bottom:120px;
+  }
+  .hero__inner{
+    max-width:760px;
+  }
+  .hero__eyebrow{
+    font-family:var(--font-mono);
+    font-size:13px;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+    margin-bottom:22px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .hero__eyebrow::before{
+    content:'';
+    width:10px; height:10px;
+    border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 4px var(--accent-soft);
+  }
+  .hero h1{
+    font-size:clamp(42px,7vw,72px);
+    font-weight:800;
+    letter-spacing:-0.02em;
+    line-height:1.05;
+  }
+  .hero__subhead{
+    margin-top:18px;
+    font-size:clamp(17px,2.2vw,21px);
+    font-weight:600;
+    color:var(--accent);
+  }
+  .hero__hook{
+    margin-top:20px;
+    font-size:16.5px;
+    color:var(--text-dim);
+    max-width:540px;
+  }
+  .hero__actions{
+    display:flex;
+    gap:14px;
+    margin-top:38px;
+    flex-wrap:wrap;
+  }
+
+  .hero__stats{
+    display:grid;
+    grid-template-columns:repeat(3,auto);
+    gap:40px;
+    margin-top:64px;
+    padding-top:32px;
+    border-top:1px solid var(--border);
+  }
+  .hero__stats div{display:flex; flex-direction:column; gap:6px;}
+  .hero__stats strong{
+    font-size:26px;
+    font-weight:800;
+  }
+  .hero__stats span{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--text-faint);
+  }
+
+  @media (max-width:560px){
+    .hero__stats{grid-template-columns:repeat(2,auto); gap:28px 36px;}
+  }
+
+  /* ---------- about ---------- */
+
+  .about__grid{
+    display:grid;
+    grid-template-columns:1fr 1.3fr;
+    gap:56px;
+    align-items:center;
+  }
+
+  .about__photo{
+    position:relative;
+    border:1px solid var(--border);
+    border-radius:18px;
+    overflow:hidden;
+    background:var(--surface);
+  }
+  .about__photo img{
+    width:100%;
+    height:420px;
+    object-fit:cover;
+  }
+  .about__photo-tag{
+    position:absolute;
+    bottom:16px; left:16px;
+    background:color-mix(in srgb, var(--bg) 70%, transparent);
+    backdrop-filter:blur(6px);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:8px 12px;
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--text);
+    text-transform:uppercase;
+  }
+
+  .about__text p{
+    color:var(--text-dim);
+    font-size:16px;
+  }
+  .about__text p strong{color:var(--text); font-weight:700;}
+  .about__text p + p{margin-top:16px;}
+
+  .about__founder{
+    margin-top:28px;
+    padding:18px 20px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:var(--surface-soft);
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  .about__founder-mark{
+    width:42px; height:42px;
+    border-radius:10px;
+    background:var(--accent-soft);
+    color:var(--accent);
+    display:grid;
+    place-items:center;
+    font-family:var(--font-mono);
+    font-weight:700;
+    font-size:13px;
+    flex-shrink:0;
+  }
+  .about__founder p{
+    font-size:13.5px;
+    color:var(--text-dim);
+    margin:0;
+  }
+  .about__founder p strong{color:var(--text);}
+
+  @media (max-width:880px){
+    .about__grid{grid-template-columns:1fr;}
+    .about__photo img{height:340px;}
+  }
+
+  /* ---------- projects ---------- */
+
+  .projects__grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:24px;
+  }
+
+  .project-card{
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:28px;
+    background:var(--surface);
+    transform-style:preserve-3d;
+    transition:transform .15s ease, border-color .25s ease, box-shadow .25s ease;
+    will-change:transform;
+  }
+  .project-card:hover{
+    border-color:var(--accent);
+    box-shadow:0 24px 48px -28px var(--shadow);
+  }
+
+  .project-card__tag{
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--accent);
+    border:1px solid var(--accent-soft);
+    background:var(--accent-soft);
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:6px;
+    margin-bottom:16px;
+  }
+
+  .project-card h3{
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:10px;
+    letter-spacing:-0.01em;
+  }
+  .project-card__desc{
+    color:var(--text-dim);
+    font-size:14px;
+    margin-bottom:18px;
+  }
+
+  .project-card__highlights{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-bottom:20px;
+    padding-top:16px;
+    border-top:1px solid var(--border);
+  }
+  .project-card__highlights li{
+    font-size:13px;
+    color:var(--text-dim);
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+  }
+  .project-card__highlights li::before{
+    content:'';
+    width:6px; height:6px;
+    border-radius:50%;
+    background:var(--accent);
+    margin-top:6px;
+    flex-shrink:0;
+  }
+
+  .badges{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .badges span{
+    font-family:var(--font-mono);
+    font-size:10.5px;
+    letter-spacing:0.06em;
+    color:var(--text-dim);
+    border:1px solid var(--border);
+    padding:5px 10px;
+    border-radius:6px;
+  }
+
+  @media (max-width:980px){
+    .projects__grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- experience timeline ---------- */
+
+  .timeline{
+    position:relative;
+    padding-left:32px;
+  }
+  .timeline::before{
+    content:'';
+    position:absolute;
+    left:5px; top:6px; bottom:6px;
+    width:2px;
+    background:var(--border);
+  }
+
+  .timeline-item{
+    position:relative;
+    padding-bottom:48px;
+  }
+  .timeline-item:last-child{padding-bottom:0;}
+  .timeline-item::before{
+    content:'';
+    position:absolute;
+    left:-32px; top:4px;
+    width:12px; height:12px;
+    border-radius:50%;
+    background:var(--bg);
+    border:2px solid var(--accent);
+  }
+
+  .timeline-item h3{
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:4px;
+  }
+  .timeline-item__org{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    color:var(--accent);
+    letter-spacing:0.04em;
+    margin-bottom:14px;
+    display:block;
+  }
+  .timeline-item ul{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .timeline-item li{
+    font-size:14.5px;
+    color:var(--text-dim);
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+  }
+  .timeline-item li::before{
+    content:'';
+    width:6px; height:6px;
+    border-radius:50%;
+    border:1px solid var(--accent);
+    margin-top:6px;
+    flex-shrink:0;
+  }
+
+  /* ---------- skills ---------- */
+
+  .skills__grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+  }
+  .skill-card{
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:24px;
+    background:var(--surface);
+  }
+  .skill-card h3{
+    font-size:15px;
+    font-weight:700;
+    margin-bottom:16px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .skill-card h3::before{
+    content:'';
+    width:8px; height:8px;
+    border-radius:2px;
+    background:var(--accent);
+    display:inline-block;
+  }
+  .pills{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .pills span{
+    font-size:13px;
+    color:var(--text-dim);
+    border:1px solid var(--border);
+    background:var(--surface-soft);
+    padding:7px 14px;
+    border-radius:999px;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .pills span:hover{
+    color:var(--accent);
+    border-color:var(--accent);
+  }
+
+  @media (max-width:780px){
+    .skills__grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- contact ---------- */
+
+  .contact__grid{
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:56px;
+  }
+
+  .field{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-bottom:20px;
+  }
+  .field label{
+    font-size:13px;
+    font-weight:600;
+    color:var(--text-dim);
+  }
+  .field input,
+  .field textarea{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:10px;
+    color:var(--text);
+    font-family:var(--font-display);
+    font-size:14.5px;
+    padding:13px 14px;
+    resize:vertical;
+    transition:border-color .2s ease;
+  }
+  .field input:focus,
+  .field textarea:focus{
+    border-color:var(--accent);
+    outline:none;
+  }
+
+  .links-card{
+    border:1px solid var(--border);
+    border-radius:16px;
+    background:var(--surface);
+    padding:8px;
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+  }
+  .link-row{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:16px;
+    border-radius:12px;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .link-row:hover{
+    background:var(--surface-soft);
+    transform:translateX(4px);
+  }
+  .link-row__icon{
+    width:42px; height:42px;
+    border-radius:10px;
+    background:var(--accent-soft);
+    color:var(--accent);
+    display:grid;
+    place-items:center;
+    flex-shrink:0;
+  }
+  .link-row__icon svg{width:20px; height:20px;}
+  .link-row__meta{flex:1; min-width:0;}
+  .link-row__label{
+    font-size:12px;
+    font-weight:600;
+    color:var(--text-faint);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:3px;
+  }
+  .link-row__value{
+    font-size:14.5px;
+    font-weight:500;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .link-row__arrow{
+    color:var(--text-faint);
+    transition:color .2s ease, transform .2s ease;
+    flex-shrink:0;
+  }
+  .link-row:hover .link-row__arrow{
+    color:var(--accent);
+    transform:translateX(4px);
+  }
+
+  @media (max-width:880px){
+    .contact__grid{grid-template-columns:1fr;}
+  }
+
+  /* ---------- footer ---------- */
+
+  .footer{padding:40px 0;}
+  .footer__inner{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:14px;
+    font-size:13.5px;
+    color:var(--text-faint);
+  }
+  .footer__inner a{color:var(--text-dim); transition:color .2s ease;}
+  .footer__inner a:hover{color:var(--accent);}
+  .footer__socials{display:flex; gap:18px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+    .reveal{opacity:1; transform:none;}
+    .project-card{transform:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg" aria-hidden="true"></div>
+<div class="glow glow--a" aria-hidden="true"></div>
+<div class="glow glow--b" aria-hidden="true"></div>
+
+<header class="nav">
+  <a href="#home" class="nav__brand">
+    <span class="nav__brand-mark">BB</span>
+    Benjamin Byaruhanga
+  </a>
+  <nav class="nav__links" id="navLinks">
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="nav__right">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="home">
+    <div class="wrap">
+      <div class="hero__inner">
+        <p class="hero__eyebrow reveal">Mukono, Uganda · Available for internships &amp; collaboration</p>
+        <h1 class="reveal">Benjamin Byaruhanga</h1>
+        <p class="hero__subhead reveal">Mechatronics &amp; Robotics Engineer | Founder, Benjamin Growsphere UG</p>
+        <p class="hero__hook reveal">Bridging hardware, software, and space technology to build scalable solutions for real-world challenges.</p>
+        <div class="hero__actions reveal">
+          <a class="btn btn--primary" href="#projects">View my work</a>
+          <a class="btn btn--ghost" href="#contact">Contact me</a>
+        </div>
+        <div class="hero__stats reveal">
+          <div>
+            <strong>3</strong>
+            <span>Core projects</span>
+          </div>
+          <div>
+            <strong>UCU</strong>
+            <span>Mechatronics &amp; Robotics</span>
+          </div>
+          <div>
+            <strong>EAST AFRICA</strong>
+            <span>Tech ecosystem</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">About</span>
+        <h2>Engineer, builder, student leader</h2>
+      </div>
+      <div class="about__grid">
+        <div class="about__photo reveal">
+          <img src="benjamin-agentcon.jpg" alt="Benjamin Byaruhanga at AgentCon Mukono, AI Agents Developer Conference, Uganda Christian University.">
+          <span class="about__photo-tag">AgentCon Mukono · UCU</span>
+        </div>
+        <div class="about__text reveal">
+          <p>
+            Forward-thinking Mechatronics and Robotics Engineering undergraduate and student
+            leader with a proven track record in project development, hardware-software
+            integration, and community leadership. Passionate about leveraging space
+            technology, automation, and digital platforms to solve real-world challenges in
+            agriculture, employment, and technology localization. Founder of <strong>Benjamin
+            Growsphere UG</strong> and an active driver of innovation in the East African tech
+            ecosystem.
+          </p>
+          <div class="about__founder">
+            <div class="about__founder-mark">GS</div>
+            <p><strong>Benjamin Growsphere UG</strong> — building digital and agricultural ventures that connect local communities to scalable, technology-driven solutions.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROJECTS ================= -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Core projects</span>
+        <h2>Selected work</h2>
+        <p>From employability platforms to agricultural logistics and national space-technology initiatives — engineering applied where it's needed most.</p>
+      </div>
+
+      <div class="projects__grid">
+        <article class="project-card reveal">
+          <span class="project-card__tag">Lead Developer / Innovator</span>
+          <h3>SkillBridge Uganda</h3>
+          <p class="project-card__desc">A digital platform designed to map student profiles to real-time job data and perform comprehensive skills-gap analysis to improve graduate employability.</p>
+          <ul class="project-card__highlights">
+            <li>Developed platform architecture</li>
+            <li>Drafted technical documentation in LaTeX</li>
+            <li>Pitched at the National Innovation Hub</li>
+          </ul>
+          <div class="badges">
+            <span>System Architecture</span>
+            <span>LaTeX</span>
+            <span>Product Strategy</span>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <span class="project-card__tag">Full-Stack Developer / Founder</span>
+          <h3>FarmLinkUG</h3>
+          <p class="project-card__desc">A mobile and web-based marketplace built to streamline logistics and bridge the gap between local Ugandan farmers and consumers. Managed under Benjamin Growsphere UG.</p>
+          <ul class="project-card__highlights">
+            <li>End-to-end database integration</li>
+            <li>User-centric feature design</li>
+            <li>Agricultural trade logistics</li>
+          </ul>
+          <div class="badges">
+            <span>Full-Stack</span>
+            <span>Database Integration</span>
+            <span>Product Design</span>
+          </div>
+        </article>
+
+        <article class="project-card reveal">
+          <span class="project-card__tag">UCU Representative</span>
+          <h3>Statehouse Satellite Domestication Project</h3>
+          <p class="project-card__desc">Collaborating on a Ugandan national initiative focused on satellite domestication, space technology research, and mission analysis.</p>
+          <ul class="project-card__highlights">
+            <li>Explored CubeSat architecture (BIRDS Bus platform, EduSat kits)</li>
+            <li>Applied orbital trajectory simulation concepts</li>
+          </ul>
+          <div class="badges">
+            <span>CubeSat Architecture</span>
+            <span>Mission Analysis</span>
+            <span>GMAT</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EXPERIENCE ================= -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Experience &amp; leadership</span>
+        <h2>Where I've worked and led</h2>
+      </div>
+
+      <div class="timeline reveal">
+        <div class="timeline-item">
+          <h3>Engineering Recess Trainee</h3>
+          <span class="timeline-item__org">Uganda Industrial Research Institute (UIRI) &amp; EDIC</span>
+          <ul>
+            <li>Executed hardware maintenance and industrial electrical installations</li>
+            <li>Applied OHS guidelines, Risk Matrix calculations, and the Hierarchy of Controls</li>
+            <li>Collaborated in a 5-student team to deliver technical reports</li>
+          </ul>
+        </div>
+        <div class="timeline-item">
+          <h3>Student Leader &amp; Class Representative</h3>
+          <span class="timeline-item__org">Uganda Christian University</span>
+          <ul>
+            <li>Primary liaison for the foundational BSc. Mechatronics and Robotics Engineering cohort</li>
+            <li>Organized hands-on Arduino and microcontroller assembly sessions for the UCU Robotics &amp; AI Chapter</li>
+          </ul>
+        </div>
+        <div class="timeline-item">
+          <h3>Event Squad Volunteer</h3>
+          <span class="timeline-item__org">DevFest Kampala</span>
+          <ul>
+            <li>Assisted in coordination, logistics, and attendee management for the developer conference</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SKILLS ================= -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Technical skills</span>
+        <h2>Toolkit</h2>
+      </div>
+
+      <div class="skills__grid">
+        <div class="skill-card reveal">
+          <h3>Programming Languages</h3>
+          <div class="pills"><span>C</span><span>Python</span><span>MATLAB</span></div>
+        </div>
+        <div class="skill-card reveal">
+          <h3>CAD &amp; Engineering Design</h3>
+          <div class="pills"><span>Fusion 360</span><span>SolidWorks</span><span>AutoCAD Electrical</span></div>
+        </div>
+        <div class="skill-card reveal">
+          <h3>Hardware &amp; Prototyping</h3>
+          <div class="pills"><span>Arduino</span><span>Circuit Assembly</span><span>Microcontrollers</span></div>
+        </div>
+        <div class="skill-card reveal">
+          <h3>Space Tech &amp; Documentation</h3>
+          <div class="pills"><span>GMAT</span><span>CubeSat Architecture</span><span>LaTeX</span><span>Git / GitHub</span></div>
+        </div>
+        <div class="skill-card reveal" style="grid-column:1 / -1;">
+          <h3>Industrial Safety</h3>
+          <div class="pills"><span>OHS Guidelines</span><span>Risk Matrix</span><span>Hierarchy of Controls</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="section__head reveal">
+        <span class="eyebrow">Contact</span>
+        <h2>Let's build something</h2>
+        <p>Open to internships, collaborations, and conversations about robotics, agritech, or space-technology projects. Send a message or reach out directly.</p>
+      </div>
+
+      <div class="contact__grid">
+        <form class="reveal" onsubmit="return false;">
+          <div class="field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" placeholder="Your name" required>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="you@example.com" required>
+          </div>
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="What are you building?" required></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary">Send message</button>
+        </form>
+
+        <div class="links-card reveal">
+          <a class="link-row" href="mailto:benjaminbyaruhanga2404@gmail.com">
+            <span class="link-row__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
+            </span>
+            <span class="link-row__meta">
+              <span class="link-row__label">Email</span>
+              <span class="link-row__value">benjaminbyaruhanga2404@gmail.com</span>
+            </span>
+            <span class="link-row__arrow">→</span>
+          </a>
+          <a class="link-row" href="tel:+256754772936">
+            <span class="link-row__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13 1 .35 1.99.66 2.94a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.14-1.13a2 2 0 0 1 2.11-.45c.95.31 1.94.53 2.94.66A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <span class="link-row__meta">
+              <span class="link-row__label">Phone</span>
+              <span class="link-row__value">+256 754 772 936</span>
+            </span>
+            <span class="link-row__arrow">→</span>
+          </a>
+          <a class="link-row" href="https://www.linkedin.com/in/benjamin-byaruhanga-7396a2373" target="_blank" rel="noopener">
+            <span class="link-row__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </span>
+            <span class="link-row__meta">
+              <span class="link-row__label">LinkedIn</span>
+              <span class="link-row__value">/in/benjamin-byaruhanga-7396a2373</span>
+            </span>
+            <span class="link-row__arrow">→</span>
+          </a>
+          <a class="link-row" href="https://github.com/benjaminbyaruhanga2404-maker" target="_blank" rel="noopener">
+            <span class="link-row__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg>
+            </span>
+            <span class="link-row__meta">
+              <span class="link-row__label">GitHub</span>
+              <span class="link-row__value">@benjaminbyaruhanga2404-maker</span>
+            </span>
+            <span class="link-row__arrow">→</span>
+          </a>
+          <a class="link-row" href="https://medium.com/@benjaminbyaruhanga2404" target="_blank" rel="noopener">
+            <span class="link-row__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v15.5a2.5 2.5 0 0 1-2.5 2.5H6.5A2.5 2.5 0 0 1 4 17.5z"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>
+            </span>
+            <span class="link-row__meta">
+              <span class="link-row__label">Medium</span>
+              <span class="link-row__value">@benjaminbyaruhanga2404</span>
+            </span>
+            <span class="link-row__arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__inner">
+      <span>© 2026 Benjamin Byaruhanga. Built with precision.</span>
+      <div class="footer__socials">
+        <a href="mailto:benjaminbyaruhanga2404@gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/benjamin-byaruhanga-7396a2373" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/benjaminbyaruhanga2404-maker" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://medium.com/@benjaminbyaruhanga2404" target="_blank" rel="noopener">Medium</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ---- theme toggle ---- */
+  var root = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+  root.setAttribute('data-theme', prefersLight ? 'light' : 'dark');
+  toggle.addEventListener('click', function(){
+    var current = root.getAttribute('data-theme');
+    root.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+  });
+
+  /* ---- scroll reveal ---- */
+  var revealEls = document.querySelectorAll('.reveal');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+  revealEls.forEach(function(el){ io.observe(el); });
+
+  /* ---- active nav link on scroll ---- */
+  var sections = document.querySelectorAll('main section, .hero');
+  var navLinks = document.querySelectorAll('.nav__links a');
+  var navObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        var id = entry.target.getAttribute('id');
+        navLinks.forEach(function(link){
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, {rootMargin:'-45% 0px -45% 0px'});
+  sections.forEach(function(sec){ navObserver.observe(sec); });
+
+  /* ---- subtle 3D tilt on project cards ---- */
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!prefersReduced){
+    document.querySelectorAll('.project-card').forEach(function(card){
+      card.addEventListener('mousemove', function(e){
+        var rect = card.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width - 0.5;
+        var y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = 'perspective(800px) rotateX(' + (-y * 6) + 'deg) rotateY(' + (x * 6) + 'deg) translateY(-2px)';
+      });
+      card.addEventListener('mouseleave', function(){
+        card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)';
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
